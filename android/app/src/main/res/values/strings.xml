@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Lorcana Companion</string>
+    <string name="title_activity_main">Lorcana Companion</string>
+    <string name="package_name">com.daniel1804.lorcana</string>
+    <string name="custom_url_scheme">com.daniel1804.lorcana</string>
+</resources>
