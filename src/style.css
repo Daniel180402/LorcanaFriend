@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+}
+
+@layer utilities {
+  .magical-shimmer {
+    background: linear-gradient(135deg, rgba(221, 184, 255, 0.05) 0%, rgba(221, 184, 255, 0) 100%);
+  }
+  .gold-leaf-border {
+    border-top: 2px solid;
+    border-image: linear-gradient(to right, #ffe088, #e9c349) 1;
+  }
+  .ink-glow {
+    filter: drop-shadow(0 0 8px rgba(221, 184, 255, 0.4));
+  }
+  
+  .celestial-bg {
+    background: radial-gradient(circle at 50% 50%, #151b2d 0%, #0c1324 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .celestial-bg::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.8) 1px, transparent 1px);
+    background-size: 50px 50px;
+    opacity: 0.05;
+    pointer-events: none;
+  }
+  
+  .gold-border-gradient {
+    border: 1px solid transparent;
+    background: linear-gradient(#2e3447, #2e3447) padding-box,
+                linear-gradient(135deg, #ffe088, #e9c349) border-box;
+  }
+  .gold-border {
+    border: 1px solid rgba(233, 195, 73, 0.15);
+  }
+  
+  .magical-glow {
+    box-shadow: 0 0 40px rgba(221, 184, 255, 0.2);
+  }
+  
+  .ink-shimmer-bg {
+    background: linear-gradient(135deg, rgba(221, 184, 255, 0.1) 0%, rgba(221, 184, 255, 0.02) 100%);
+  }
+}
