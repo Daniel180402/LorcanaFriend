@@ -101,6 +101,13 @@
         <span class="material-symbols-outlined text-lg">auto_stories</span>
         Storico Partite
       </button>
+
+      <!-- Legal Disclaimer -->
+      <div class="pt-8 pb-4 text-center">
+        <p class="text-[9px] leading-tight text-lorcana-brown/30 uppercase tracking-wider font-medium max-w-xs mx-auto">
+          App non ufficiale creata dai fan. Non affiliata, approvata o sponsorizzata da Disney o Ravensburger. Lorcana è un marchio registrato di Disney.
+        </p>
+      </div>
     </div>
   </main>
 </template>
