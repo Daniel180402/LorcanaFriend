@@ -1,76 +1,106 @@
 <template>
-  <main class="celestial-bg pb-44 pt-8 px-6 overflow-y-auto">
-    <div class="max-w-xl mx-auto space-y-10 mb-8">
-      <!-- Page Hero / Title -->
-      <section class="text-center space-y-2">
-        <h2 class="font-headline text-4xl font-bold text-on-surface tracking-tight">Match Setup</h2>
-        <p class="text-on-surface-variant font-medium">Prepare your ink for the upcoming duel</p>
-      </section>
+  <main class="setup-bg flex flex-col items-center px-6 py-12 relative h-full overflow-y-auto overscroll-none" style="-webkit-overflow-scrolling: touch;">
+    <!-- Subtle gold corner ornaments -->
+    <div class="absolute top-4 left-4 w-16 h-16 border-t-2 border-l-2 border-lorcana-gold/30 rounded-tl-lg pointer-events-none"></div>
+    <div class="absolute top-4 right-4 w-16 h-16 border-t-2 border-r-2 border-lorcana-gold/30 rounded-tr-lg pointer-events-none"></div>
+    <div class="absolute bottom-4 left-4 w-16 h-16 border-b-2 border-l-2 border-lorcana-gold/30 rounded-bl-lg pointer-events-none"></div>
+    <div class="absolute bottom-4 right-4 w-16 h-16 border-b-2 border-r-2 border-lorcana-gold/30 rounded-br-lg pointer-events-none"></div>
 
-      <!-- Player Entry Section -->
-      <div class="grid grid-cols-1 gap-6">
-        <!-- Player 1 Card -->
-        <div class="bg-surface-container-highest rounded-xl p-6 relative overflow-hidden group border-t-2 border-[#e9c349]/20 shadow-2xl">
-          <div class="absolute -right-4 -top-4 opacity-10 group-hover:opacity-20 transition-opacity duration-500">
-            <span class="material-symbols-outlined text-8xl">auto_awesome</span>
-          </div>
-          <div class="flex items-center gap-4 mb-4">
-            <div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary">
-              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
-            </div>
-            <div>
-              <span class="text-xs uppercase tracking-widest text-secondary font-bold">Illumineer One</span>
-              <h3 class="font-headline text-xl">Enter Name</h3>
-            </div>
-          </div>
-          <input v-model="p1" class="w-full bg-surface-container-lowest border-none rounded-md px-4 py-3 text-on-surface placeholder:text-outline focus:ring-2 outline-none focus:ring-tertiary/40 transition-all shadow-inner" placeholder="Character or Player Name" type="text"/>
-        </div>
-
-        <!-- Player 2 Card -->
-        <div class="bg-surface-container-highest rounded-xl p-6 relative overflow-hidden group border-t-2 border-[#e9c349]/20 shadow-2xl">
-          <div class="absolute -right-4 -top-4 opacity-10 group-hover:opacity-20 transition-opacity duration-500">
-            <span class="material-symbols-outlined text-8xl">flare</span>
-          </div>
-          <div class="flex items-center gap-4 mb-4">
-            <div class="w-12 h-12 rounded-full bg-tertiary-container flex items-center justify-center text-tertiary">
-              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
-            </div>
-            <div>
-              <span class="text-xs uppercase tracking-widest text-tertiary font-bold">Illumineer Two</span>
-              <h3 class="font-headline text-xl">Enter Name</h3>
-            </div>
-          </div>
-          <input v-model="p2" class="w-full bg-surface-container-lowest border-none rounded-md px-4 py-3 text-on-surface placeholder:text-outline focus:ring-2 outline-none focus:ring-tertiary/40 transition-all shadow-inner" placeholder="Opponent Name" type="text"/>
-        </div>
+    <div class="w-full max-w-sm space-y-8">
+      <!-- Title -->
+      <div class="text-center space-y-1">
+        <h1 class="font-headline text-3xl font-bold text-lorcana-brown tracking-tight">Nuova Partita</h1>
+        <p class="text-lorcana-brown-light/60 text-sm font-medium">Prepara la tua sfida</p>
       </div>
 
-      <!-- Lore Target Selection -->
-      <section class="space-y-6">
-        <div class="flex items-center gap-2">
-          <span class="material-symbols-outlined text-secondary">stars</span>
-          <h3 class="font-headline text-2xl font-bold text-on-surface">Victory Threshold</h3>
+      <!-- Step 1: Player Names -->
+      <div class="space-y-4" v-show="step === 1">
+        <!-- Player 1 Input -->
+        <div class="relative">
+          <label class="text-xs font-bold uppercase tracking-widest text-lorcana-gold-dark mb-1.5 block">Giocatore 1</label>
+          <input
+            v-model="p1"
+            type="text"
+            list="saved-players"
+            placeholder="Nome giocatore"
+            class="w-full bg-white/60 border border-lorcana-gold/20 rounded-xl px-4 py-3.5 text-lorcana-brown placeholder:text-parchment-400 focus:outline-none focus:border-lorcana-gold/50 focus:bg-white/80 transition-all text-[16px]"
+          />
         </div>
-        <div class="grid grid-cols-3 gap-4">
-          <button @click="target = 20" :class="target === 20 ? 'ring-2 ring-secondary' : ''" class="gold-border-gradient rounded-md py-4 flex flex-col items-center justify-center hover:scale-105 transition-transform duration-300 group">
-            <span class="text-2xl font-headline font-bold text-secondary">20</span>
-            <span class="text-[10px] uppercase tracking-tighter text-outline-variant group-hover:text-secondary group-focus:text-secondary">Standard</span>
-          </button>
-          <button @click="target = 40" :class="target === 40 ? 'ring-2 ring-secondary' : ''" class="gold-border-gradient rounded-md py-4 flex flex-col items-center justify-center hover:scale-105 transition-transform duration-300 group">
-            <span class="text-2xl font-headline font-bold text-secondary">40</span>
-            <span class="text-[10px] uppercase tracking-tighter text-outline-variant group-hover:text-secondary group-focus:text-secondary">Epic Duel</span>
-          </button>
-          <div class="relative">
-            <input v-model.number="target" class="w-full h-full bg-surface-container-lowest border-none rounded-md text-center font-headline text-xl font-bold text-secondary outline-none focus:ring-2 focus:ring-tertiary/40 placeholder:text-outline-variant placeholder:font-body placeholder:text-sm shadow-inner" placeholder="Custom" type="number"/>
-          </div>
-        </div>
-      </section>
 
-      <!-- Action Buttons -->
-      <div class="pt-4">
-        <button @click="startMatch" class="w-full py-4 rounded-md bg-gradient-to-br from-[#e9c349] to-[#342800] text-on-secondary font-bold text-lg shadow-[0px_10px_30px_rgba(233,195,73,0.2)] hover:opacity-90 active:scale-[0.98] transition-all">
-            Commence Chapter
+        <!-- Player 2 Input -->
+        <div class="relative">
+          <label class="text-xs font-bold uppercase tracking-widest text-lorcana-gold-dark mb-1.5 block">Giocatore 2</label>
+          <input
+            v-model="p2"
+            type="text"
+            list="saved-players"
+            placeholder="Nome avversario"
+            class="w-full bg-white/60 border border-lorcana-gold/20 rounded-xl px-4 py-3.5 text-lorcana-brown placeholder:text-parchment-400 focus:outline-none focus:border-lorcana-gold/50 focus:bg-white/80 transition-all text-[16px]"
+          />
+        </div>
+
+        <datalist id="saved-players">
+          <option v-for="name in store.savedPlayers" :key="name" :value="name"></option>
+        </datalist>
+
+        <!-- Save Players Checkbox -->
+        <div class="flex items-center gap-2 mt-4 ml-1 mb-2">
+          <input type="checkbox" id="savePlayers" v-model="savePlayers" class="accent-lorcana-gold-dark w-4 h-4 rounded border-lorcana-gold/30 cursor-pointer">
+          <label for="savePlayers" class="text-sm font-medium text-lorcana-brown/80 cursor-pointer">Salva i nomi per le prossime partite</label>
+        </div>
+
+        <!-- Next Button -->
+        <button
+          @click="step = 2"
+          class="w-full py-4 rounded-xl bg-gradient-to-r from-lorcana-gold-dark via-lorcana-gold to-lorcana-gold-dark text-white font-bold text-base tracking-wide shadow-lg shadow-lorcana-gold/20 active:scale-[0.98] transition-all mt-4"
+        >
+          Scegli Sfondo
         </button>
       </div>
+
+      <!-- Step 2: Background Selection -->
+      <div class="space-y-4" v-show="step === 2">
+        <div class="flex items-center gap-2 mb-2">
+          <button @click="step = 1" class="text-lorcana-gold-dark">
+            <span class="material-symbols-outlined text-xl">arrow_back</span>
+          </button>
+          <span class="text-xs font-bold uppercase tracking-widest text-lorcana-gold-dark">Scegli lo sfondo</span>
+        </div>
+
+        <!-- Background options -->
+        <div class="space-y-3">
+          <div
+            v-for="bg in backgrounds"
+            :key="bg.id"
+            @click="selectedBg = bg.id"
+            class="bg-select-card"
+            :class="{ selected: selectedBg === bg.id }"
+          >
+            <img :src="bg.src" :alt="bg.label" loading="lazy" />
+            <div class="bg-select-label">{{ bg.label }}</div>
+            <div class="bg-select-check">
+              <span class="material-symbols-outlined text-white text-sm" style="font-variation-settings: 'FILL' 1;">check</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Start Match -->
+        <button
+          @click="startMatch"
+          class="w-full py-4 rounded-xl bg-gradient-to-r from-lorcana-gold-dark via-lorcana-gold to-lorcana-gold-dark text-white font-bold text-base tracking-wide shadow-lg shadow-lorcana-gold/20 active:scale-[0.98] transition-all mt-4"
+        >
+          Inizia Partita
+        </button>
+      </div>
+
+      <!-- Match History Link -->
+      <button
+        @click="router.push('/log')"
+        class="w-full flex items-center justify-center gap-2 text-lorcana-gold-dark/60 text-sm font-medium py-2 active:opacity-70 transition-opacity"
+      >
+        <span class="material-symbols-outlined text-lg">auto_stories</span>
+        Storico Partite
+      </button>
     </div>
   </main>
 </template>
@@ -83,12 +113,24 @@ import { useGameStore } from '@/stores/gameStore'
 const router = useRouter()
 const store = useGameStore()
 
-const p1 = ref(store.player1Name)
-const p2 = ref(store.player2Name)
-const target = ref(store.targetScore)
+const step = ref(1)
+const p1 = ref(store.player1Name === 'Giocatore 1' ? '' : store.player1Name)
+const p2 = ref(store.player2Name === 'Giocatore 2' ? '' : store.player2Name)
+const selectedBg = ref(store.selectedBackground)
+const savePlayers = ref(true)
+
+const backgrounds = [
+  { id: 'parchment', label: 'Pergamena Classica', src: '/backgrounds/parchment.png' },
+  { id: 'enchanted', label: 'Foresta Incantata', src: '/backgrounds/enchanted.png' },
+  { id: 'cosmic', label: 'Galassia Cosmica', src: '/backgrounds/cosmic.png' },
+]
 
 const startMatch = () => {
-    store.startMatch(p1.value, p2.value, target.value)
-    router.push('/battle')
+  if (savePlayers.value) {
+    store.savePlayerName(p1.value)
+    store.savePlayerName(p2.value)
+  }
+  store.startMatch(p1.value, p2.value, selectedBg.value)
+  router.push('/battle')
 }
 </script>
